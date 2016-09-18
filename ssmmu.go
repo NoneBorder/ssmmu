@@ -1,6 +1,7 @@
 package ssmmu
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"runtime"
@@ -94,6 +95,18 @@ func (self *SSMMU) Ping() (succ bool, duration time.Duration, err error) {
 	return
 }
 
-func (self *SSMMU) Stat() error {
-	return nil
+func (self *SSMMU) Stat(timeout time.Duration) (resp []byte, err error) {
+	recvC := make(chan bool)
+	go func() {
+		resp, err = self.recv()
+		recvC <- true
+	}()
+
+	select {
+	case <-recvC:
+	case time.After(timeout):
+		err = errors.New("Stat timeout")
+	}
+
+	return
 }
