@@ -1,3 +1,4 @@
+// ssmmu is package for ShadowSocks manage tool via UDP or unix
 package ssmmu
 
 import (
@@ -8,6 +9,7 @@ import (
 	"time"
 )
 
+// SSMMU struct presents the ShadowSocks server
 type SSMMU struct {
 	MAType  string // manage address type, should be `udp` or `unix`
 	MAAddr  string
