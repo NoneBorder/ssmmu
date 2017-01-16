@@ -104,7 +104,7 @@ func (self *SSMMU) Stat(timeout time.Duration) (resp []byte, err error) {
 
 	select {
 	case <-recvC:
-	case time.After(timeout):
+	case <-time.After(timeout):
 		err = errors.New("Stat timeout")
 	}
 
